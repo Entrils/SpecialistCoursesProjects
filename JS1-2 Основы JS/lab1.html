@@ -1,0 +1,21 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ЛР1 Температура</title>
+
+</head>
+<body>
+    <script>
+let tc = parseFloat( prompt('Введите температуру в градусах Цельсия: ', 0.0) );
+
+let fg = tc * 9 / 5 + 32;
+
+document.write(fg); // обычный вывод
+//fg=Math.round(fg);  - округление 
+fg=Math.round(fg * 100)/100;
+document.write('<br>');
+document.write(fg); // 2 знака после запятой
+</script>
+</body>
+</html>

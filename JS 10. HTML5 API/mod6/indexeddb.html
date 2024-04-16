@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <style>
+    * {font-family: Arial, Helvetica, sans-serif;}
+    table { border-collapse: collapse; }
+    td, th{ border: 1px solid #000;}
+    
+    th:nth-child(1){ width: 50px;}
+    th:nth-child(2){ width: 250px;}
+    th:nth-child(3){ width: 200px;}
+    th:nth-child(4){ width: 150px;}
+    th:nth-child(5){ width: 100px;}
+  </style>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/uuid/8.2.0/uuidv4.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/locales/ru/faker.ru.min.js'></script>
+
+</head>
+<body>
+  <h1>IndexedDB</h1>
+  <h2>Добавление</h2>
+  <input type="text" id="uid" placeholder="uid">
+  <input type="text" id="title" placeholder="title">
+  <input type="text" id="author" placeholder="author">
+  <input type="text" id="price" placeholder="price">
+  <button id="add">Добавить</button>
+  <br>
+
+  <h2>Каталог</h2>
+  <table>
+    <tr>
+      <th>uid</th>
+      <th>Название</th>
+      <th>Автор</th>
+      <th>Цена</th>
+      <th></th>
+    </tr>
+  </table>
+
+  <script>
+    console.log(faker.name.findName())
+    console.log(faker.fake("{{name.lastName}} {{address.country}}"));
+    document.querySelector('#uid').value =  uuidv4();
+    document.querySelector('#add').addEventListener('click', addBook)
+
+    const bookData = [{
+      uid: "b05c4c5e-42fc-4a35-8614-15099b310702",
+      title: "Очень интересная книга",
+      author: "Петр Зайцев",
+      price: 123,
+    }];
+    for(let i = 0; i < 5; i++){
+      bookData.push({
+      uid: uuidv4(),
+      title: faker.fake("{{commerce.productName}}"),
+      author: faker.fake("{{name.findName}}"),
+      price: faker.fake("{{commerce.price}}"),
+      })
+    }
+    console.log(bookData);
+
+    let db;
+    let request = window.indexedDB.open('newDatabase', 1);
+
+    request.addEventListener('error', e => {
+      console.log('ошибка ', e)
+    })
+
+    request.addEventListener('success', e => {
+      db = request.result;
+      console.log('все хорошо ', db);
+      loadTable();
+    })
+
+    request.addEventListener('upgradeneeded', e => {
+      let db = e.target.result;
+      let objectStore = db.createObjectStore("books", {
+        keyPath: "uid"
+      });
+      for(let i in bookData){
+        objectStore.add(bookData[i]);
+      }
+    })    
+    const $ = tag => document.createElement(tag);
+
+    function loadTable(){
+      let books = document.createDocumentFragment();
+      let table = document.querySelector('table');
+      table.innerHTML = '';
+      let objectStore = db.transaction("books").objectStore("books");
+      objectStore.openCursor().onsuccess = function(e) {
+        let cursor = e.target.result;
+        if( cursor ){
+          let book = $('tr');
+          book.className = 'book';
+
+          let uidTd = $('td');
+          let titleTd = $('td');
+          let authorTd = $('td');
+          let priceTd = $('td');
+          let aTd = $('td');
+          let a = $('a');
+
+          uidTd.innerHTML = cursor.key;
+          titleTd.innerHTML = cursor.value.title;
+          authorTd.innerHTML = cursor.value.author;
+          priceTd.innerHTML = cursor.value.price;
+          a.innerHTML = 'Удалить';
+          a.href = '#';
+          a.setAttribute('data-uid', cursor.key);
+          a.addEventListener('click', function(e) {
+            e.preventDefault();
+            deleteBook(this.getAttribute('data-uid'));
+          })
+          aTd.appendChild(a);
+
+          book.appendChild(uidTd);
+          book.appendChild(titleTd);
+          book.appendChild(authorTd);
+          book.appendChild(priceTd);
+          book.appendChild(aTd);
+
+          books.appendChild(book);
+          cursor.continue();
+        } else {
+          console.log(books)
+          table.appendChild(books);
+        }
+      }
+    }
+
+    function addBook(){
+      const uid = document.querySelector('#uid').value;
+      const title = document.querySelector('#title').value;
+      const author = document.querySelector('#author').value;
+      const price = document.querySelector('#price').value;
+
+      let request = db.transaction(['books'], 'readwrite')
+       .objectStore('books')
+       .add({
+          uid:uid,
+          title:title,
+          author:author,
+          price:price
+       })
+
+       request.addEventListener('error', e => {
+        alert('ошибка добавления книги!')
+      })
+
+      request.addEventListener('success', e => {
+        loadTable();
+        document.querySelector('#uid').value = uuidv4();
+        document.querySelector('#title').value = '';
+        document.querySelector('#author').value = '';
+        document.querySelector('#price').value = '';
+      })
+    }
+    function deleteBook(uid){
+      console.log(uid)
+      let request = db.transaction(['books'], 'readwrite')
+       .objectStore('books')
+       .delete(uid)
+
+      request.addEventListener('success', e => {
+        loadTable();        
+      })
+    }
+  </script>
+</body>
+</html>

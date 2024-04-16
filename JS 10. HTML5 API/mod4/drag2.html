@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .test{
+      width: 100px;
+      height: 100px;
+      background: #f63;
+      position: absolute;
+    }
+    #zone{
+      position: absolute;
+      left: 200px;
+      top: 100px;
+      width: 150px;
+      border: 1px solid #000;
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="test" id="test" draggable="true">
+    Это можно перетаскивать
+  </div>
+
+  <div id="zone">Зона сброса</div>
+
+  <script>
+    const test = document.querySelector('#test');
+    const zone = document.querySelector('#zone');
+
+    const dragstartHandler = ev => {
+      console.log(ev);
+      // ev.dataTransfer.setData('text/plain', 'тест');
+      ev.dataTransfer.setData('text/plain', ev.target.id);
+      ev.dataTransfer.effectAllowed  = 'copy'
+    }
+    test.addEventListener('dragstart', dragstartHandler)
+
+    const dragoverHandler = ev => {
+      ev.preventDefault();
+    }
+    const dropHandler = ev => {
+      ev.preventDefault();
+      const data = ev.dataTransfer.getData('text/plain');
+      // ev.target.innerHTML = data;
+      ev.target.appendChild(document.querySelector(`#${data}`));
+    }
+    zone.addEventListener('dragover', dragoverHandler);
+    zone.addEventListener('drop', dropHandler);
+
+  </script>
+</body>
+</html>

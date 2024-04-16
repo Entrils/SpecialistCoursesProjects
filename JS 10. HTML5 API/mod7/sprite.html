@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="512" height="384"></canvas>
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+    let img = new Image();
+    img.src = 'bums.png';
+    img.addEventListener('load', e => {
+      // ctx.drawImage(img, 0, 0, 2048, 1536, 0, 0, 512, 384)
+    })
+    canvas.addEventListener('click', e => {
+      let k = 0, i = 0, j = 0;
+      let w = 256;
+      let h = 256;
+      (function (){
+        ctx.clearRect(e.clientX - w / 8, e.clientY - h / 8,   w / 4, h / 4);
+        if( k < 48 ){
+          console.log(i, j);
+          ctx.drawImage(img, w * i, h * j, w, h, e.clientX - w / 8, e.clientY - h / 8 , w / 4, h / 4)
+          k++;
+          i++;
+          if( k % 8 == 0){
+            j++;
+            i = 0;
+          }
+          setTimeout(arguments.callee, 40)
+        } else {
+
+        }
+      })();
+      
+    })
+
+  </script>
+</body>
+</html>

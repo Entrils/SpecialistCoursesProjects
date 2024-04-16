@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap" rel="stylesheet">
+
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+    #wrapper div {
+      float: left;
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="wrapper"></div>
+
+  <script>
+    let wrapper = document.querySelector('#wrapper'); 
+
+    let compositeTypes = [
+      'source-over',
+      'source-in',
+      'source-out',
+      'source-atop',
+      'destination-over',
+      'destination-in',
+      'destination-out',
+      'destination-atop',
+      'lighter',
+      'copy',
+    ]
+ 
+
+    for(let i in compositeTypes){
+      wrapper.innerHTML += `
+      <div>
+        <p>${compositeTypes[i]}</p>
+        <canvas id="${compositeTypes[i]}" width=200 height=200></canvas>
+      </div>
+      `;
+    }
+
+    for(let i in compositeTypes){
+      let canvas = document.querySelector('#'+compositeTypes[i]);
+      let ctx = canvas.getContext('2d');
+
+      ctx.beginPath();
+      ctx.arc(0, 0, 100, 0, 2 * Math.PI, false);
+      ctx.fillStyle = 'blue';
+      ctx.fill();
+
+      ctx.globalCompositeOperation = compositeTypes[i];
+
+      ctx.beginPath();
+      ctx.rect(50, 50, 100, 100);
+      ctx.fillStyle = 'red';
+      ctx.fill();
+    }
+
+  </script>
+</body>
+</html>

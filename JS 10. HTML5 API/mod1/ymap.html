@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    #result{
+      width: 500px;
+      height: 300px;
+    }
+  </style>
+  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=<ваш API-ключ>" type="text/javascript"></script>
+</head>
+<body>
+
+  <div id="result"></div>
+  <script>
+    ymaps.ready(fn);
+
+
+    let start = document.querySelector('#start');
+    let finish = document.querySelector('#finish');
+    let result = document.querySelector('#result');
+    let data = [];
+   
+
+    function fn() {
+
+        let geolocation = navigator["geolocation"];
+        let position;
+        
+        geolocation.getCurrentPosition( p => {
+          let myMap = new ymaps.Map("result", {
+              center: [p.coords.latitude, p.coords.longitude],
+              zoom: 12
+          }, {
+              searchControlProvider: 'yandex#search'
+          })
+  
+          data.push(JSON.stringify({
+            latitude: p.coords.latitude,
+            longitude: p.coords.longitude,
+            speed: p.coords.speed,
+            accuracy: p.coords.accuracy,
+            heading: p.coords.heading
+          }));
+        } );
+
+    }
+
+  </script>
+</body>
+</html>

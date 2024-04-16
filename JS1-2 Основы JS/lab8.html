@@ -1,0 +1,24 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ЛР 8. НОД</title>
+
+</head>
+<body>
+<script>
+    function gcd(k1,k2){
+        let k3;
+        while ((k3=k1%k2)!=0){
+            k1=k2;
+            k2=k3;
+        }
+        return k2;
+    }
+    let x,y;
+    x= parseInt(prompt('Число 1: ', 0));
+    y= parseInt(prompt('Число 2: ', 0));
+    document.write( gcd(x,y));
+</script>
+</body>
+</html>

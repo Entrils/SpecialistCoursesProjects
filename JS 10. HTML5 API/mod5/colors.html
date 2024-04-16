@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Цвет фон страницы</title>
+</head>
+<body>
+  <!-- Создать возможность изменения цвета фона страницы 
+  с использованием localStorage. -->
+  <section>
+    <h1>Цвет фон страницы</h1>
+    <input type="color" id="color" value="#ffffff">
+  </section>
+
+  <script>
+    let color = document.getElementById('color');
+    
+    color.addEventListener('change', ev => {
+      localStorage['color'] = color.value;
+      document.body.style.background = color.value;
+    })
+
+    if( localStorage['color'] ){
+      color.value = localStorage['color'];
+      document.body.style.background = localStorage['color'];
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .test{
+      width: 100px;
+      height: 100px;
+      background: #f63;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div class="test" id="test">Это можно перетаскивать</div>
+
+  <script>
+    const element = document.querySelector('#test');
+
+    const mouseDownHandler = ev => {
+      ev.preventDefault();
+      let target = ev.target || ev.srcElement;
+      if( target.classList.contains('test') ){
+        target.style.background = '#369';
+        target.style.color = '#fff';
+
+        const domRect = target.getBoundingClientRect();
+        target.x1 = domRect.left; 
+        target.y1 = domRect.top;
+        target.mx1 = ev.clientX; 
+        target.my1 = ev.clientY;
+        let {x1, y1, mx1, my1} = target;
+        console.log(x1, y1, mx1, my1);
+
+        window.addEventListener('mousemove', mouseMoveHandler);
+        window.addEventListener('mouseup', mouseUpHandler);
+      }
+    }
+    const mouseMoveHandler = ev => {
+      ev.preventDefault();
+      let target = ev.target || ev.srcElement;
+      if( target.classList.contains('test') ){
+        target.style.left = ev.clientX - target.mx1 + target.x1 + 'px';
+        target.style.top  = ev.clientY - target.my1 + target.y1 + 'px';
+      }
+    }  
+    const mouseUpHandler = ev => {
+      ev.preventDefault();
+      let target = ev.target || ev.srcElement;
+      if( target.classList.contains('test') ){
+        target.style.background = '#f63';
+        target.style.color = '#000';
+        window.removeEventListener('mousemove', mouseMoveHandler);
+        window.removeEventListener('mouseup', mouseUpHandler);
+      }
+    }
+
+    window.addEventListener('mousedown', mouseDownHandler);
+  </script>
+</body>
+</html>

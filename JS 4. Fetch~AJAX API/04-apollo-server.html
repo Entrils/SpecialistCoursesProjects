@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+    <title>apollo-server</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h1>apollo-server</h1>
+            <p class="lead">Проект
+                <a target="_blank" href="https://www.npmjs.com/package/apollo-server-express">apollo-server-express</a> - express-реализация  <a target="_blank" href="https://www.apollographql.com/docs/apollo-server/">Apollo</a> сервера 
+            </p>
+
+        <hr />
+
+        
+        <section>
+            <h3>Fetch</h3>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>POST-запрос</h4>
+                    <a href="#" class="btn btn-primary" onclick="books(); return false">Получить книги</a>
+                    <a href="#" class="btn btn-primary" onclick="addBook(); return false">Создать книгу</a>
+                    <a href="#" class="btn btn-primary" onclick="deleteBook(); return false">Удалить книгу(и)</a>
+                    <a href="#" class="btn btn-primary" onclick="searchBooks('Новая книга'); return false">Найти</a>
+                   
+                    <hr>
+                </div>
+                <div class="col-md-6">
+                    <h4>Результат</h4>
+                    <pre id="result1"></pre>
+                </div>
+            </div>
+
+            <script>
+               
+                function books(id) {
+
+                    fetch(`http://localhost:4000/`,{
+                        method: 'POST',
+                        body: JSON.stringify({query: `query GetBooks {
+                        books {
+                            title
+                            author
+                        }
+                        }`}) , headers: {
+                            'content-type': 'application/json' 
+                        }
+                    })
+                        .then(response => {
+                            response.json().then(json => {
+                                result1.innerHTML = JSON.stringify(json, null, ' ');
+                            });
+                        }).catch(txt => {
+                            console.log('Ошибка: ', txt)
+                        });
+                }
+
+
+
+                function searchBooks(title) {
+
+        fetch(`http://localhost:4000/`,{
+            method: 'POST',
+            body: JSON.stringify({query: `query SearchBooks {
+            searchbooks(title: "${title}") {
+                title
+                author
+            }
+            }`}) , headers: {
+                'content-type': 'application/json' 
+            }
+        })
+            .then(response => {
+                response.json().then(json => {
+                    result1.innerHTML = JSON.stringify(json, null, ' ');
+                });
+            }).catch(txt => {
+                console.log('Ошибка: ', txt)
+            });
+        }
+
+                function addBook(){
+
+                fetch(`http://localhost:4000/`,{
+                    method: 'POST',
+                    body: JSON.stringify({query: `mutation CreateBook {
+                    addBook(title: "Новая книга", author: "Неизвестный автор") {
+                        title
+                        author
+                    }
+                }`}) , headers: {
+                        'content-type': 'application/json' 
+                    }
+                })
+                    .then(response => {
+                        response.json().then(json => {
+                            result1.innerHTML = JSON.stringify(json, null, ' ');
+                        });
+                    }).catch(txt => {
+                        console.log('Ошибка: ', txt)
+                    });
+                }
+                function deleteBook(){
+
+                fetch(`http://localhost:4000/`,{
+                    method: 'POST',
+                    body: JSON.stringify({query: `mutation DeleteBook {
+                    deleteBook(title: "Новая книга") {
+                        title
+                    }
+                }`}) , headers: {
+                        'content-type': 'application/json' 
+                    }
+                })
+                    .then(response => {
+                        response.json().then(json => {
+                            result1.innerHTML = JSON.stringify(json, null, ' ');
+                        });
+                    }).catch(txt => {
+                        console.log('Ошибка: ', txt)
+                    });
+                }       
+            </script>
+        </section>
+    </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

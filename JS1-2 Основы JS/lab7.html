@@ -1,0 +1,26 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ЛР 7 Функции</title>
+
+</head>
+<body>
+<script>
+    var userName;
+    var age;
+function sayHello(userName, age){
+    if (typeof age =='number')
+    document.write(`Привет, ${userName} - ${age}!<br>`);
+    else
+        if(userName)
+        document.write(`Привет, ${userName}!<br>`);
+        else
+        document.write(`Привет, Незнакомец!<br>`);
+}
+sayHello('pavel', 24);
+sayHello('pavel');
+sayHello();
+</script>
+</body>
+</html>

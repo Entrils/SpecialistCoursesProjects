@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="300"></canvas>
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+function draw(){
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.save();
+  ctx.beginPath();    
+  ctx.font = "bold 60px sans-serif";
+    ctx.fillStyle='orange';
+    ctx.fillText('ТЕКСТ',100,100);
+
+    ctx.globalCompositeOperation = 'source-atop';
+   ctx.fillStyle = 'green';
+
+   ctx.moveTo(100,100);
+   ctx.fillRect(100,100,5,5);
+   ctx.fillRect(150,40,5,5);
+   ctx.fillRect(200,95,5,5);
+   ctx.fillRect(250,20,5,5);
+   ctx.fillRect(300,125,5,5);
+
+   ctx.bezierCurveTo(100,100,150,40,200,range1.value);
+   ctx.bezierCurveTo(200,range1.value,250,20,300,125);
+   ctx.lineTo(100,100);
+   ctx.fill();
+   ctx.closePath();
+   ctx.restore();
+}
+
+const y = [
+  {y:100, y2:10},
+  {y1:40, y2:60},
+  {y1:90, y2:7},
+  {y1:20, y2:90},
+  {y1:125, y2:5},
+];
+let i=0, step=20,tick=100;
+function draw2(){
+if (i>step) return;
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.save();
+ctx.beginPath();    
+ctx.font = "bold 60px sans-serif";
+  ctx.fillStyle='orange';
+  ctx.globalCompositeOperation = 'source-atop';
+  ctx.fillText('ТЕКСТ',100,100);
+
+  ctx.globalCompositeOperation = 'source-atop';
+ ctx.fillStyle = 'green';
+
+ ctx.moveTo(100,100);
+
+const y0 = y[0].y1 +i*(y[0].y2-y[0].y1)/step;
+const y1 = y[1].y1 +i*(y[1].y2-y[1].y1)/step;
+const y2 = y[2].y1 +i*(y[2].y2-y[2].y1)/step;
+const y3 = y[3].y1 +i*(y[3].y2-y[3].y1)/step;
+const y4 = y[4].y1 +i*(y[4].y2-y[4].y1)/step;
+i++;
+ ctx.bezierCurveTo(100,y0,150,y1,200,y2);
+ ctx.bezierCurveTo(200,y2,250,y3,300,y4);
+ ctx.lineTo(100,100);
+ ctx.fill();
+ ctx.closePath();
+ ctx.restore();
+ setTimeout(draw2,100);
+}
+draw2();
+  </script>
+  <input type="range" id=range1 oninput="draw()" value=90 min=0 max=350>
+</body>
+</html>

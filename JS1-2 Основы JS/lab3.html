@@ -1,0 +1,30 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ЛР3 Вороны</title>
+
+</head>
+<body>
+<script>
+
+    let counter = parseInt(prompt('Введите кол-во ворон (1-9)','0'));
+    let word;
+    if (counter%100>=11 && counter%100<=14) word="ворон";
+    else{
+    switch(counter % 10){
+        case 1: word= 'ворона';
+        break;
+        case 2:
+        case 3:
+        case 4: word= "вороны";
+        break;
+        default: word = 'ворон';
+        break;
+    }
+}
+    let result = `${counter} ${word}`;
+    alert(result);
+</script>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <style>
+      .container {
+        margin-top: 20px;
+        width: 1000px;
+      }
+      .form-control_input_text_center {
+        text-align: center;
+      }
+      /* *{
+            border: 1px solid red;
+        } */
+      .list-group-item span {
+        width: 80px;
+      }
+      .text-muted {
+        line-height: 2rem;
+      }
+
+      /* корзина Basket.js */
+      /* .basket{
+            position: relative;
+            border: 1px solid red;
+        }
+        .basket::before{
+            position: absolute;
+            content: 'Basket.js';
+            background: #fff;
+            padding: 10px 20px;
+            left: -150px;
+            font-weight: bold;
+            border: 1px solid #000;
+            border-radius: 2px;
+            box-shadow: 0 0 5px #555;
+            top: 10px;
+        } */
+
+      /* элементы корзины BasketItem.js*/
+      /* .basket-item{
+            position: relative;
+            border: 1px solid red;
+        }
+        .basket-item::before{
+            position: absolute;
+            content: 'BasketItem.js';
+            background: #fff;
+            padding: 10px 20px;
+            left: -150px;
+            font-weight: bold;
+            border: 1px solid #000;
+            border-radius: 2px;
+            box-shadow: 0 0 5px #555;
+        } */
+
+      /* информация о введённом промокоде BasketPromoInfo.js*/
+      /* .promo{
+            position: relative;
+            border: 1px solid red;
+        }
+        .promo::before{
+            position: absolute;
+            content: 'BasketPromoInfo.js';
+            background: #fff;
+            padding: 10px 20px;
+            left: -180px;
+            font-weight: bold;
+            border: 1px solid #000;
+            border-radius: 2px;
+            box-shadow: 0 0 5px #555;
+        } */
+
+      /* промокод BasketPromoCode.js */
+      /* .promo-code{
+            position: relative;
+            border: 1px solid red;
+        }
+        .promo-code::before{
+            position: absolute;
+            content: 'BasketPromoCode.js';
+            background: #fff;
+            padding: 10px 20px;
+            left: -200px;
+            font-weight: bold;
+            border: 1px solid #000;
+            border-radius: 2px;
+            box-shadow: 0 0 5px #555;
+        } */
+
+      /* сумма по заказу в корзине BasketTotal.js */
+      /* .total{
+            position: relative;
+            border: 1px solid red;
+        }
+        .total::before{
+            position: absolute;
+            content: 'BasketTotal.js';
+            background: #fff;
+            padding: 10px 20px;
+            left: -180px;
+            top: -10px;
+            font-weight: bold;
+            border: 1px solid #000;
+            border-radius: 2px;
+            box-shadow: 0 0 5px #555;
+        } */
+       
+
+      /* описание товара в корзине ItemInfo.js*/
+      /* .item-info{
+            position: relative;
+            border: 1px solid red;
+        }
+        .item-info::before{
+            position: absolute;
+            content: 'ItemInfo.js';
+            background: #fff;
+            padding: 10px 20px;
+            left: -150px;
+            font-weight: bold;
+            border: 1px solid #000;
+            border-radius: 2px;
+            box-shadow: 0 0 5px #555;
+        } */
+
+      /* стоимость товара за одну позицию ItemPrice.js*/
+      /* .item-price{
+            position: relative;
+            border: 1px solid red;
+        }
+        .item-price::before{
+            position: absolute;
+            content: 'ItemPrice.js';
+            background: #fff;
+            padding: 10px 20px;
+            left: -150px;
+            font-weight: bold;
+            border: 1px solid #000;
+            border-radius: 2px;
+            box-shadow: 0 0 5px #555;
+            z-index: 2;
+            opacity: .97;
+        } */
+
+
+      /* счетчики элементов корзины Counter.js*/
+      /* .basket-counter{
+            position: relative;
+            border: 1px solid red;
+        }
+        .basket-counter::before{
+            position: absolute;
+            content: 'Counter.js';
+            background: #fff;
+            padding: 10px 20px;
+            left: -150px;
+            font-weight: bold;
+            border: 1px solid #000;
+            border-radius: 2px;
+            box-shadow: 0 0 5px #555;
+        } */
+
+      /* верхняя часть корзины BasketHeader.js */
+      /* .basket-header{
+            position: relative;
+            border: 1px solid red;
+        }
+        .basket-header::before{
+            position: absolute;
+            content: 'BasketHeader.js';
+            background: #fff;
+            padding: 10px 20px;
+            left: -170px;
+            top: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+            border: 1px solid #000;
+            border-radius: 2px;
+            box-shadow: 0 0 5px #555;
+        } */
+
+      /* кнопки Button.js */
+      /* .btn{
+            position: relative;
+            border: 1px solid red;
+        }
+        .btn::before{
+            position: absolute;
+            content: 'Button.js';
+            color: #000;
+            background: #fff;
+            padding: 10px 20px;
+            left: -170px;
+            top: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+            border: 1px solid #000;
+            border-radius: 2px;
+            box-shadow: 0 0 5px #555;
+        }  */
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-md-12 col-lg-12 order-md-last basket">
+        <h4
+          class="d-flex justify-content-between align-items-center mb-3 basket-header"
+        >
+          <span class="text-primary">Ваша корзина</span>
+          <span class="badge bg-primary rounded-pill">3</span>
+        </h4>
+        <ul class="list-group mb-3">
+          <li
+            class="list-group-item d-flex justify-content-between lh-sm basket-item"
+          >
+            <div class="col-md-6 item-info">
+              <h6 class="my-0">Товар №1</h6>
+              <small class="text-muted">описание товара 1</small>
+            </div>
+            <div class="col-md-1 item-price">
+              <span class="text-muted">1200₽</span>
+            </div>
+            <div class="col-md-2">
+              <div class="input-group mb-3 basket-counter">
+                <button class="btn btn-primary" type="button">-</button>
+                <input
+                  type="text"
+                  class="form-control form-control_input_text_center"
+                  value="1"
+                />
+                <button class="btn btn-primary" type="button">+</button>
+              </div>
+            </div>
+            <div class="col-md-1 item-price">
+              <span class="text-muted">1200₽</span>
+            </div>
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between lh-sm basket-item"
+          >
+            <div class="col-md-6 item-info">
+              <h6 class="my-0">Товар №2</h6>
+              <small class="text-muted">описание товара 2</small>
+            </div>
+            <div class="col-md-1 item-price">
+              <span class="text-muted">800₽</span>
+            </div>
+            <div class="col-md-2">
+              <div class="input-group mb-3 basket-counter">
+                <button class="btn btn-primary" type="button">-</button>
+                <input
+                  type="text"
+                  class="form-control form-control_input_text_center"
+                  value="1"
+                />
+                <button class="btn btn-primary" type="button">+</button>
+              </div>
+            </div>
+            <div class="col-md-1 item-price">
+              <span class="text-muted">800₽</span>
+            </div>
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between lh-sm basket-item"
+          >
+            <div class="col-md-6 item-info">
+              <h6 class="my-0">Товар №3</h6>
+              <small class="text-muted">описание товара 3 </small>
+            </div>
+            <div class="col-md-1 item-price">
+              <span class="text-muted">250₽</span>
+            </div>
+            <div class="col-md-2">
+              <div class="input-group mb-3 basket-counter">
+                <button class="btn btn-primary" type="button">-</button>
+                <input
+                  type="text"
+                  class="form-control form-control_input_text_center"
+                  value="2"
+                />
+                <button class="btn btn-primary" type="button">+</button>
+              </div>
+            </div>
+            <div class="col-md-1 item-price">
+              <span class="text-muted">500₽</span>
+            </div>
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between bg-light promo"
+          >
+            <div class="text-success">
+              <h6 class="my-0">Промокод</h6>
+              <small>REACTSPECIALIST</small>
+            </div>
+            <div class="col-md-1 item-price">
+              <span class="text-success">−500₽</span>
+            </div>
+          </li>
+          <li class="list-group-item d-flex justify-content-between total">
+            <span>Всего (РУБ)</span>
+            <strong>2000₽</strong>
+          </li>
+        </ul>
+
+        <form class="card p-2 promo-code">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Промокод" />
+            <button type="button" class="btn btn-primary">Применить</button>
+          </div>
+        </form>
+
+        <button class="w-100 btn btn-primary btn-lg" type="submit">
+          Продолжить покупку
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

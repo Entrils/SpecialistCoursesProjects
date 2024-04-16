@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <button id="start">Начать</button>
+  <button id="finish">Завершить</button>
+  <div id="result"></div>
+  <script>
+    let start = document.querySelector('#start');
+    let finish = document.querySelector('#finish');
+    let result = document.querySelector('#result');
+    let data = [];
+    let wid;
+
+    const fn = () => {
+      if("geolocation" in navigator){
+        // console.log(`Ура, есть! ${ navigator["geolocation"] }`);
+        // console.log( navigator["geolocation"] );
+        let geolocation = navigator["geolocation"];
+        let position;
+        
+        geolocation.getCurrentPosition( p => {
+          position = `Широта: ${p.coords.latitude} |Долгота: ${p.coords.longitude}`;
+          // console.log(position);
+          console.log(p.coords);
+          result.innerHTML = position;
+          data.push(JSON.stringify({
+            latitude: p.coords.latitude,
+            longitude: p.coords.longitude,
+            speed: p.coords.speed,
+            accuracy: p.coords.accuracy,
+            heading: p.coords.heading
+          }));
+        } );
+      }
+    }
+
+    const err = () => {
+      console.log(`У нас проблемы..`);
+    }
+    const opt = {
+      enableHighAccuracy: true,
+      timeout: 10000,
+    }
+    start.addEventListener('click', function(){
+      wid = navigator["geolocation"].watchPosition(fn, err, opt);
+    })
+    finish.addEventListener('click', function(){
+      navigator["geolocation"].clearWatch();
+    })
+  </script>
+</body>
+</html>

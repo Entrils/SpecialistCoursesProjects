@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>*{ font-family: sans-serif;} </style>
+</head>
+<body>
+
+  <input type="text" name="s" id="s" autocomplete="off" placeholder="Тело кредита"><br />
+  <input type="text" name="p" id="p" autocomplete="off" placeholder="Процентная ставка"><br />
+  <input type="text" name="n" id="n" autocomplete="off" placeholder="Кол-во лет"><br />
+  <h3>Результат</h3>
+  <div id="result"></div>
+
+  <script>
+  if( window.Worker ){
+    let s = document.querySelector('#s');
+    let p = document.querySelector('#p');
+    let n = document.querySelector('#n');
+    let result = document.querySelector('#result');
+    let myWorker = new Worker('mortgage.js');
+
+    const fn = ev => {
+      console.log(s.value, p.value, n.value);
+      myWorker.postMessage({
+        "s": parseFloat(s.value),
+        "p": parseFloat(p.value),
+        "n": parseFloat(n.value),
+      });
+    }
+
+    s.addEventListener('keyup', fn);
+    p.addEventListener('keyup', fn);
+    n.addEventListener('keyup', fn);
+   
+    myWorker.addEventListener('message', e => {
+      console.log('Получили данные в основном скрипте', e);
+      result.innerHTML = e.data + 'руб.';
+    })
+  }
+  /* Создайте форму нахождения аннуитетного ипотечного платежа. Напишите скрипт, которые по событию 'keyup' отправляет данные в Помощник (Worker), там рассчитывается платёж и возвращается в основной скрипт */
+  </script>
+</body>
+</html>

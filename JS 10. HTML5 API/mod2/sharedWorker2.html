@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let worker = new SharedWorker('test.js');
+    worker.port.start();
+    worker.port.postMessage('Старт');
+    worker.port.addEventListener('message', e => {
+      console.log(e.data);
+    })
+  </script>
+</body>
+</html>

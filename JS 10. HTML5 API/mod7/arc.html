@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width=500 height=300></canvas>
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+
+    const pixel = (ctx, x, y, r, c) => {
+      r = r / 2;
+      ctx.fillStyle = c;
+      ctx.beginPath(); 
+      ctx.moveTo(x, y);
+      ctx.fillRect(x - r, y - r, r + r, r + r);
+      ctx.closePath();     
+    }
+
+    ctx.lineWidth = 5;    
+    ctx.strokeStyle = '#369';
+
+    // ctx.beginPath();   
+    // ctx.arc(
+    //   100, //x координата центра
+    //   100, //y
+    //   100, //радиус
+    //   0,   //стартовый угол
+    //   90 * Math.PI/180, //финишный угол
+    //   false //направление отсчёта
+    //   );
+    // ctx.stroke();
+
+    /* Дан массив data = [123, 45, 10, 49, 100]. Нарисовать график-пирог (pie) так, чтобы количество секторов совпадало с количеством элементов data и размер сектора (угол) был пропорционален соответствующим элементам
+    }
+     */
+
+    const sector = (ctx, x,y, r, angle1, angle2, color) => {
+      ctx.strokeStyle = '#000';
+      ctx.fillStyle = color;
+      ctx.beginPath();   
+      ctx.moveTo( x,y); 
+      ctx.arc(x,y, r, angle1 * Math.PI/180, angle2 * Math.PI/180, false);
+      ctx.lineTo( x,y);  
+      ctx.fill();
+      ctx.stroke();
+    }
+    sector(ctx, 100, 100, 100, 0, 90, '#f63' );
+
+    const data = [123, 45, 10, 49, 100];
+    const colors = ['red', 'green', 'yellow', 'blue', 'orange'];
+    const summa = data.reduce( (acc, curr) => acc + curr );
+    const length = data.length;
+
+    let changedData = data.map( e => (e / summa) * 360 );
+    console.log(changedData);
+
+    let angle1 = 0, angle2 = changedData[0];
+    
+    for(let i = 1; i <= changedData.length; i++){
+      sector(ctx, 350, 100, 100, angle1, angle2, colors[i - 1] );
+      console.log(angle1, angle2)
+      angle1 += changedData[i - 1];
+      angle2 += changedData[i];
+    }
+    
+    // console.log(summa)
+  </script>
+</body>
+</html>

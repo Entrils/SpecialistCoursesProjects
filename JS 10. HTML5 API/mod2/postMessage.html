@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>*{ font-family: sans-serif;} </style>
+</head>
+<body>
+
+  <input type="text" name="word1" id="word1" autocomplete="off" placeholder="слово 1">
+  <input type="text" name="word2" id="word2" autocomplete="off" placeholder="слово 2">
+  <h3>Результат</h3>
+  <div id="result"></div>
+
+  <script>
+  if( window.Worker ){
+    let word1 = document.querySelector('#word1');
+    let word2 = document.querySelector('#word2');
+    let result = document.querySelector('#result');
+    let myWorker = new Worker('worker-message.js');
+
+    const fn = ev => {
+      console.log(word1.value, word2.value);
+      myWorker.postMessage([word1.value, word2.value]);
+    }
+
+    word1.addEventListener('keyup', fn);
+    word2.addEventListener('keyup', fn);
+   
+    myWorker.addEventListener('message', e => {
+      console.log('Получили данные в основном скрипте', e);
+      result.innerHTML = e.data;
+    })
+  }
+  /* Создайте форму нахождения аннуитетного ипотечного платежа. Напишите скрипт, которые по событию 'keyup' отправляет данные в Помощник (Worker), там рассчитывается платёж и возвращается в основной скрипт */
+  </script>
+</body>
+</html>

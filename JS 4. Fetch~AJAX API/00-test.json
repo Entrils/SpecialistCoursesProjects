@@ -1,0 +1,17 @@
+[
+    {
+        "author": "Author 1",
+        "title": "Title1",
+        "price": 123
+    },
+    {
+        "author": "Author 2",
+        "title": "Title2",
+        "price": 456
+    },
+    {
+        "author": "Author 3",
+        "title": "Title3",
+        "price": 900
+    }
+]

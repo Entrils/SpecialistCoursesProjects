@@ -1,0 +1,14 @@
+doctype
+html
+  head
+    title='title в pug'    
+  body
+    h1='Наша страница'
+    #controls
+      .row
+        label#txt(style='color:#369') Сообщение
+        input#input(for=txt)
+      .row
+        input#submit(type='button',value='Отправить')
+    script(src='/socket.io/socket.io.js')
+    script(src='/js/client.js')

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="300"></canvas>
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+    const rand = (a,b) => Math.round(
+      Math.random() * (b-a)+a
+    );
+
+    const c = ( a=0, b=255) => rand(a,b);
+
+    let particles = [];
+
+    for(let i=0; i< 100;i++){
+    particles.push({
+      x: rand(0, canvas.width),
+      y: rand(-canvas.height,-10),
+      speed: rand(1,5),
+      color: `rgb(${c()},${c()},${c()})`
+    });
+  }
+
+  function draw(){
+    particles = particles.map( particle =>{
+      particle.y += particle.speed;
+      if(particle.y > canvas.height){
+        particle.y = rand(-canvas.height, -10);
+      }
+      return particle;
+    })
+
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+
+    for(let i=0; i< 100;i++){
+    let{x,y,color} = particles[i];
+    ctx.fillStyle = color;
+    ctx.fillRect(x,y,10,10);
+    }
+    //setTimeout(draw, 100);
+    requestAnimationFrame(draw);
+  }
+  //draw();
+  requestAnimationFrame(draw);
+
+  </script>
+</body>
+</html>

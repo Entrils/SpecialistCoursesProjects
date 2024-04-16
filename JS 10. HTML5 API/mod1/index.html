@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <button id="geo">Определить</button>
+  <div id="result"></div>
+  <script>
+    let geo = document.querySelector('#geo');
+    let result = document.querySelector('#result');
+    let data = [];
+    const fn = () => {
+      if("geolocation" in navigator){
+        // console.log(`Ура, есть! ${ navigator["geolocation"] }`);
+        // console.log( navigator["geolocation"] );
+        let geolocation = navigator["geolocation"];
+        let position;
+        
+        geolocation.getCurrentPosition( p => {
+          position = `Широта: ${p.coords.latitude} |Долгота: ${p.coords.longitude}`;
+          // console.log(position);
+          console.log(p.coords);
+          result.innerHTML = position;
+          data.push(JSON.stringify({
+            latitude: p.coords.latitude,
+            longitude: p.coords.longitude,
+            speed: p.coords.speed,
+            accuracy: p.coords.accuracy,
+            heading: p.coords.heading
+          }));
+        } );
+      }
+    }
+
+    geo.addEventListener('click', function(){
+      setInterval(fn, 10000);
+    })
+      
+  </script>
+</body>
+</html>

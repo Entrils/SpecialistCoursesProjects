@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+</head>
+<body>
+  <h1>Работа с localStorage</h1>
+  <section>
+    <h2></h2>
+    <div class="row"><input type="text" id='param'></div>
+    <div class="row"><input type="text" id='value'></div>
+    <div class="row"><input type="button" value='Добавить' id='add'></div>
+  </section>
+  <section>
+    <h2></h2>
+    <div class="row"><input type="text" id='param2'></div>
+    <div class="row"><input type="button" value='Удалить' id='del1'></div>
+    <div class="row"><input type="button" value='Удалить все' id='del2'></div>
+  </section>
+
+  <script>
+    let param = document.querySelector('#param');
+    let value = document.querySelector('#value');
+    let add = document.querySelector('#add');
+
+    let param2 = document.querySelector('#param2');
+    let del1 = document.querySelector('#del1');
+    let del2 = document.querySelector('#del2');
+
+    console.log(param,value,add,param2,del1,del2 );
+
+    add.addEventListener('click', ev => {
+      localStorage[param.value] = value.value;
+      // sessionStorage[param.value] = value.value;
+      param.value = '';
+      value.value = '';
+      param.focus();
+    })
+    del1.addEventListener('click', ev => {
+      if( param2.value ){
+        localStorage.removeItem(param2.value);
+        // sessionStorage.removeItem(param2.value);
+        param2.value = '';
+        param2.focus();
+      }
+    })
+    del2.addEventListener('click', ev => {
+      localStorage.clear();     
+      // sessionStorage.clear();     
+    })
+  </script>
+</body>
+</html>

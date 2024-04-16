@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="menu"></div>
+    <input type="text" id="a"> + <input type="text" id="b"> = <strong id="result"></strong>
+    <script>
+
+        if('Worker' in window){
+            const worker =new Worker('worker.js');
+            const workerTree = new Worker('workerTree.js');
+            workerTree.postMessage({
+                'Главная': '/',
+                'Каталог':{
+                    'Категория 1': '/categoty1',
+                    'Категория 2': {
+                        'Подкатегория 2.1': '/subcategory2-1',
+                        'Подкатегория 2.2': '/subcategory2-2',
+                    },
+                },
+                'Контакты': '/contacts',
+            });
+            workerTree.addEventListener('message', ev => {
+                menu.innerHTML = ev.data;
+            })
+
+            const changeInput = ev => {
+                console.log({
+                    a:parseFloat(a.value),
+                    b:parseFloat(b.value)
+                });
+                worker.postMessage({
+                    a:parseFloat(a.value),
+                    b:parseFloat(b.value)
+                })
+            }
+
+            a.addEventListener('input', changeInput);
+            b.addEventListener('input', changeInput);
+
+            worker.addEventListener('message', ev => {
+                result.innerHTML = ev.data;
+            });
+        }
+    </script>
+</body>
+</html>

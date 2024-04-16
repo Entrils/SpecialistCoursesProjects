@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .table{
+            width: 400px;
+            border-collapse: collapse;
+        }
+        .table th, .table td{
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Редактор localStorage</h1>
+
+    <h3>Добавление пункта</h3>
+    <div class="addform">
+        <form action="">
+            <div class="row">
+            <input type="text">
+            <input type="text">
+            <input type="button" value='Добавить'></div>
+        </form>
+    </div>
+
+    <h3>Перечень key/value</h3>
+    <table class="table">
+        <tr>
+            <th>№п/п</th>
+            <th>key</th>
+            <th>value</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>1
+            <td>param1
+            <td>100
+            <td><a href="#">удалить</a>
+        </tr>
+    </table>
+
+    <script>
+        const addInputKey = document.querySelectorAll('.addform input')[0];
+        const addInputValue = document.querySelectorAll('.addform input')[1];
+        const button = document.querySelector('.addform input[type="button"]');
+        const table = document.querySelector('.table');
+
+        button.addEventListener('click',()=>{
+            if(!addInputKey.value.trim()) return;
+            if(!addInputValue.value.trim()) return;
+
+            localStorage[addInputKey.value] = addInputValue.value;
+
+            showItems();
+
+            addInputKey.value='';
+            addInputValue.value='';
+            addInputKey.focus()
+        })
+         function showItems(){
+            let rows = table.querySelectorAll('tr');
+            for(let i=1; i<rows.length; i++){
+                rows[i].remove();
+            }
+
+            for(let i=0; i < localStorage.length; i++){
+                console.log(i);
+                table.innerHTML += `
+                <tr>
+                    <td>${i+1}
+                    <td>${localStorage.key(i)}
+                    <td>${localStorage[localStorage.key(i)]}
+                    <td><a href="#" onclick='deleteItem("${localStorage.key(i)}")'>удалить</a>
+                </tr>`
+            }
+        }
+        showItems();
+
+        window.addEventListener('storage', e => {
+            showItems();
+        })
+
+        function deleteItem(key){
+            console.log(key)
+            localStorage.removeItem(key);
+            showItems();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="300"></canvas>
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+    const img = new Image();
+    img.src = 'logo-desktop.png';
+    img.onload = () =>{
+      console.log(img);
+      ctx.strokeStyle = 'red';
+      ctx.strokeRect(295,45,50,30);
+
+      ctx.globalAlpha =.4;
+      //ctx.drawImage(img, 295,45,50,30,0,0,50,30);
+      for(let i=0; i < 11; i++){
+        for( let j=0; j<12;j++){
+        ctx.drawImage(img, 
+        295,
+        45,
+        50,
+        30,
+        j%2 ? i*50: i*50+25,
+        j*30,
+        25,
+        15
+        );
+        console.log(i,j);
+      }
+    }
+      ctx.strokeRect(0,0,50,30);
+      ctx.globalAlpha =1;
+      ctx.drawImage(img,0,0);
+    }
+
+  </script>
+</body>
+</html>

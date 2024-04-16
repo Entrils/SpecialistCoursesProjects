@@ -1,0 +1,25 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ЛР9 Объекты с ссылками</title>
+
+</head>
+<body>
+<script>
+    function showLink(){
+        document.write('<a href="' +this.url+'">'+this.title+'</a><br>')
+    }
+    let link1={};
+    link1.title ="Yandex";
+    link1.url="https://www.yandex.ru";
+    link1.print =showLink;
+    let link2={};
+    link2.title ="Google";
+    link2.url="https://www.google.com";
+    link2.print =showLink;
+    link1.print();
+    link2.print();
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <script>
+    let items = [
+      {uid: 1, title: 'Название 1 ', description: 'Описание 1 ', price: 123},
+      {uid: 2, title: 'Название 2 ', description: 'Описание 2 ', price: 345},
+      {uid: 3, title: 'Название 3 ', description: 'Описание 3 ', price: 34},
+      {uid: 23, title: 'Название 23', description: 'Описание 23', price: 567},
+      {uid: 45, title: 'Название 45', description: 'Описание 45', price: 234},
+    ];
+  </script>
+  <script src='lib.js'></script>
+</head>
+<body>
+  <h1>Практическая работа: построение корзины</h1>
+  <section>
+    <h2>Корзина</h2>
+    <div id="result">Пусто</div>
+  </section>
+  <section>
+    <h2>Каталог</h2>
+    <div id="catalog"></div>
+    <script>
+      /* Пробежаться по массиву items и вывести всю информацию о каждом товаре. Примечание: каждый товар должен быть в div с классом item, содержать h3 с названием товара, p c описанием и ссылку на добавление товара в корзину
+      
+    <div class="item">
+      <h3>Lorem, ipsum.</h3>
+      <p>Lorem ipsum dolor sit amet.</p>
+      <a href=""></a>
+    </div>
+      */
+    
+      let catalog = document.querySelector('#catalog');
+
+      for(let i in items){       
+        catalog.appendChild(createItem(items[i]));
+      }
+      
+
+      
+
+      //инициализация корзины
+      if( !localStorage.getItem('basket') ){
+        localStorage.setItem('basket', JSON.stringify({}));
+      }
+      fnUpdate();
+
+      // window.addEventListener('storage', e => {
+      //   fnUpdate();
+      // })
+    </script>
+
+  </section>
+</body>
+</html>

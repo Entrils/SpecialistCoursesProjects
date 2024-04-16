@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap" rel="stylesheet">
+
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="500"></canvas>
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+    /* Создать шахматную доску. Прописать для неё буквы и цифры */
+
+    ctx.fillStyle = `rgb(130, 150, 180)`;    
+    ctx.strokeStyle = `#000`;    
+    ctx.fillRect(20, 20, 400, 400);
+    ctx.rect(20, 20, 400, 400);
+    
+    for(let i = 0; i < 4; i++){
+      for(let j = 0; j < 4; j++){
+        ctx.save();
+        ctx.fillStyle = `#fff`;
+        ctx.translate(100 * i, 100 * j);
+        // ctx.rotate( i * 5 * Math.PI / 180 );
+        // ctx.scale( 1.2, 1.2 );
+        ctx.fillRect(20, 20, 50, 50);
+        ctx.rect(20, 20, 50, 50);
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = `#fff`;
+        ctx.translate(100 * i + 50, 100 * j + 50);
+        ctx.fillRect(20, 20, 50, 50);
+        ctx.rect(20, 20, 50, 50);
+        ctx.stroke();
+        ctx.restore();      
+
+      }
+    }
+ 
+
+  </script>
+</body>
+</html>

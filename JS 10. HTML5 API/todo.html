@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <style>
+    body{
+  font: 1em sans-serif;
+}
+.todo{   
+  width: 500px;
+  margin: auto;
+  font-size: 0.8em;
+ /* border: 1px solid #000;*/
+}
+.todo .input{
+  width: 100%;
+  font: 2em sans-serif;
+  box-sizing: border-box
+}
+.todo li.plan{
+}
+.todo .done li{
+  text-decoration: line-through;
+}
+.todo li a{
+  margin-left: 10px;
+}
+  </style>
+</head>
+<body>
+  <h1>To do list</h1>
+  <!-- 
+   Создать список дел, используя IndexedDB
+   Разметку можно взять тут https://codepen.io/htmllabru/pen/mqyqpG
+   -->
+   <div class="todo">
+    <input type="text" placeholder="добавьте дело">
+    <input type="text" placeholder="длительность в минутах">
+    <h3>Список дел</h3>
+    <ul class="plan"></ul>
+    <h3>Выполненные дела</h3>
+    <ul class="done"></ul>
+    <h3>Топ5 задач по длительности</h3>
+    <pre class="top5duration"></pre>
+  </div>
+   <script>
+      let taskInput = document.querySelector('input');
+
+      let durationInput = document.querySelectorAll('input')[1];
+
+      taskInput.addEventListener('keyup', ev =>{
+        if(ev.target.value.trim() && ev.keyCode == 13){
+          let request = db.transaction('tasks', 'readwrite')
+          .objectStore('tasks')
+          .add({title:ev.target.value, state: 'uncomplited', duration: +durationInput.value});
+
+          ev.target.value='';
+          ev.target.focus();
+
+          showTasks();
+        }
+      })
+    
+      let db;
+      let request = indexedDB.open('ToDoList',1);
+
+      request.addEventListener('error',ev =>{
+        console.log(ev);
+      });
+
+      request.addEventListener('success', ev=>{
+        db = ev.target.result;
+
+        console.log(ev);
+      });
+
+      request.addEventListener('upgradeneeded',ev=>{
+        console.log('база создана/обновлена');
+        db = ev.target.result;
+        let objectStore = db.createObjectStore("tasks",{
+          keyPath: 'id',
+          autoIncrement: true
+        });
+        let durationIndex = objectStore.createIndex('ixduration', 'duration');
+
+        objectStore.add({
+          title:'Задача1', 
+          state: 'uncomplited',
+          duration: 10
+        })
+        objectStore.add({
+          title:'Задача2', 
+          state: 'complited',
+          duration: 20
+        })
+      });
+
+      function showTasks(){
+        let ulUnCompletedTask = document.querySelector('.plan');
+        let ulCompletedTask = document.querySelector('.done');
+        let preTop5DurationTask = document.querySelector('.top5duration');
+
+        ulCompletedTask.innerHTML = '';
+        ulUnCompletedTask.innerHTML = '';
+        preTop5DurationTask.innerHTML ='';
+
+        let objectStore = db
+        .transaction('tasks')
+        .objectStore('tasks');
+
+        objectStore.openCursor().addEventListener('success', ev=>{
+          let cursor = ev.target.result;
+
+          if (cursor){
+            console.log(cursor.value);
+
+            let li = document.createElement('li');
+
+            li.setAttribute('data-id', cursor.value.id);
+
+            let textLi = document.createTextNode(cursor.value.title);
+            li.appendChild(textLi);
+
+            let a = document.createElement('a');
+            a.innerHTML = 'Удалить';
+            a.addEventListener('click', ev=>{
+              ev.preventDefault();
+              let parent = ev.target.parentNode;
+
+              let request = db.transaction('tasks', 'readwrite')
+              .objectStore('tasks')
+              .delete(+parent.getAttribute('data-id'));
+
+              parent.remove();
+            })
+            a.setAttribute('href','#')
+            li.appendChild(a);
+
+            let ulTask = cursor.value.state == 'complited' ? ulCompletedTask : ulUnCompletedTask;
+            ulTask.appendChild(li);
+
+            li.addEventListener('click', ev =>{
+
+              let id = +ev.target.getAttribute('data-id');
+
+              let objectStore = db.transaction('tasks', 'readwrite').objectStore('tasks')
+
+              let request = objectStore.get(id);
+
+              request.addEventListener('success', ev=>{
+                let task = ev.target.result;
+             
+              
+
+              db.transaction('tasks', 'readwrite')
+              .objectStore('tasks')
+              .put({
+                ...task,
+                state: task.state == 'complited' ? 'uncomplited': 'complited',
+              });
+              showTasks();
+            })
+          })
+            cursor.continue();
+          }
+        })
+
+        let durationIndex = db
+        .transaction('tasks')
+        .objectStore('tasks')
+        .index('ixduration');
+
+        let request = durationIndex.getAll(IDBKeyRange.lowerBound(10));
+
+        request.addEventListener('success', ev=>{
+          preTop5DurationTask.innerHTML = JSON.stringify(
+            request.result.sort((a,b)=>b.duration-a.duration).slice(0,5),
+            null,
+            ' '
+          )
+        })
+      }
+      setTimeout(()=>{showTasks()}, 100);  
+
+   </script>
+</body>
+</html>

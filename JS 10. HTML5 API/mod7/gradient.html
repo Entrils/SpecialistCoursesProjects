@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width=500 height=300></canvas>
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = '10';
+    ctx.rect(10, 10, 100, 100);
+    ctx.stroke();
+    
+    // let linear = ctx.createLinearGradient(0, 0, 100, 100);
+    // linear.addColorStop(0, '#369');
+    // linear.addColorStop(.7, '#f63');
+    // linear.addColorStop(1, 'yellow');
+    // ctx.fillStyle = linear;
+
+    let radial = ctx.createRadialGradient(30, 30, 50, 30, 30, 20);
+    radial.addColorStop(0, '#369');
+    radial.addColorStop(.7, '#f63');
+    radial.addColorStop(1, 'yellow');
+    ctx.fillStyle = radial;
+    ctx.fillRect(10, 10, 100, 100);
+ 
+
+    
+
+    
+  </script>
+</body>
+</html>

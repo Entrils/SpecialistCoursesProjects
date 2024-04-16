@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="300"></canvas>
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+    const rand = (a,b) => Math.round(
+      Math.random() * (b-a)+a
+    );
+
+    const c = ( a=0, b=255) => rand(a,b);
+
+    ctx.lineWidth =5;
+
+    let degrees1 = 45;
+    let radians1 = degrees1*Math.PI/180
+    ctx.beginPath();
+    ctx.arc(100,100,30,radians1,90*Math.PI/180,true);
+    ctx.stroke();
+    ctx.closePath();
+
+    
+
+    const spinner = {
+      x: 200,
+      y: 200,
+      radius: 30,
+      angle1: 270,
+      angle2: 45,
+      color: 'rgba(255,0,0,.5)'
+    }
+function draw(){
+  spinner.angle1 += 1;
+  spinner.angle2 += 1.1;
+
+    ctx.beginPath();
+    ctx.strokeStyle = spinner.color;
+    ctx.clearRect(
+      spinner.x-spinner.radius-3,
+      spinner.y-spinner.radius-3,
+      spinner.radius*2+6,
+      spinner.radius*2+6
+    );
+    ctx.arc(
+      spinner.x,
+      spinner.y,
+      spinner.radius,
+      spinner.angle1 * Math.PI/180,
+      spinner.angle2 * Math.PI/180,
+      false
+    );
+    ctx.stroke();
+    ctx.closePath();
+    requestAnimationFrame(draw);  
+}
+requestAnimationFrame(draw);  
+  </script>
+</body>
+</html>

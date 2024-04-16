@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <input type="file" id='input' multiple >
+  <input type="file" id='bin' multiple >
+  <input type="file" id='dataurl' multiple >
+  <img src="" alt="" id="img">
+  <pre id="result"></pre>
+
+  <script>
+    const result = document.querySelector('#result');
+    const fileInput = document.querySelector('#input');
+    const binInput = document.querySelector('#bin');
+    const dataurl = document.querySelector('#dataurl');
+    const img = document.querySelector('#img');
+
+    fileInput.addEventListener('change', function(){
+//       console.log(this.files);
+//       console.log(`Название:${this.files[0].name}
+// Дата модификации: ${new Date(this.files[0].lastModified)}
+// Размер: ${this.files[0].size}
+// Тип: ${this.files[0].type}
+// `);
+      let tmp = '';
+      for(let i = 0; i < this.files.length; i++){
+        let file = this.files[i];
+
+        tmp += `Название:${file.name}
+Дата модификации: ${new Date(file.lastModified)}
+Размер: ${file.size}
+Тип: ${file.type}\n
+`
+        console.log(tmp);      
+        if( file.type == 'text/plain' ){
+          let fileReader  = new FileReader();
+
+          fileReader.addEventListener('load', e => {
+            let target = e.target || e.srcElement;
+            let text = `Содержимое: ${target.result.slice(0,140)}<hr/>\n`;
+            result.innerHTML += text;
+            console.log(target.result)
+          })
+
+          fileReader.readAsText(file, 'utf-8')
+        }
+        
+
+      }
+      result.innerHTML = tmp;
+    })
+    binInput.addEventListener('change', function(e){
+      let target = e.target || e.srcElement;
+      const file = target.files[0];
+      let tmp = '';
+
+      let reader = new FileReader()
+      reader.onload = ev => {
+        let result = ev.target.result;
+        for(let i = 0; i < result.length; i++){
+          let byte =  result.charCodeAt(i);
+          let str  = byte.toString(16);
+          tmp += str + ' ';
+        }
+        console.log(tmp);
+        result.innerHTML = tmp;
+      }
+      reader.readAsBinaryString(file);
+      
+    });
+
+   dataurl.addEventListener('change', function(e){
+      let target = e.target || e.srcElement;
+      const file = target.files[0];
+      let tmp = '';
+
+      let reader = new FileReader()
+      reader.onload = ev => {
+        let result = ev.target.result;
+        console.clear();
+        console.log(result);
+        result.innerHTML = tmp;
+        img.src = result;
+        img.width = 300;
+      }
+      reader.readAsDataURL(file);
+      
+    });
+    /*
+    Создать HTML элемент input с типом file, который при выборе нескольких графических файлов, будет их все отображать на странице.
+    */
+  </script>
+</body>
+</html>

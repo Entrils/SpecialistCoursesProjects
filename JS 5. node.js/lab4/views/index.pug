@@ -1,0 +1,18 @@
+doctype
+html
+  head
+    title='Лабораторная по Socket.io' 
+    link(rel="stylesheet",href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")   
+  body
+    h1='Чат на Socket.io'
+    #controls.container
+      .row
+        label#login Логин
+        input#input_login(for=login,class="form-control")
+      .row
+        label#message Сообщение
+        input#input_message(for=txt,class="form-control" )
+      .row
+        input#submit(type='button',value='Отправить',class="form-control")
+    script(src='/socket.io/socket.io.js')
+    script(src='/js/client.js')

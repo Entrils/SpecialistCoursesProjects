@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width=500 height=300></canvas>
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+    
+    ctx.lineWidth = 1;   
+    ctx.font = '20px Arial';   
+    ctx.fillStyle = '#369';
+    ctx.strokeStyle = '#000';
+
+    let str = 'Привет';
+    const angle = 4.5 * Math.PI / 180;
+    // let i = 0;
+    str.split('').forEach( (l, i) => {
+      ctx.save();
+      ctx.rotate(angle * (i - 3))
+      ctx.translate( 10 + i * 4, -i * 5)
+      ctx.fillText(l, 20 * i, 100);
+      ctx.rect(20 * i, 100, 30, 40);
+      ctx.stroke();
+      ctx.restore();
+    })
+    
+    
+    
+  </script>
+</body>
+</html>

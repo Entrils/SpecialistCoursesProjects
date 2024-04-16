@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width=500 height=300></canvas>
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+
+    const pixel = (ctx, x, y, r, c) => {
+      r = r / 2;
+      ctx.fillStyle = c;
+      ctx.beginPath(); 
+      ctx.moveTo(x, y);
+      ctx.fillRect(x - r, y - r, r + r, r + r);
+      ctx.closePath();     
+    }
+
+    ctx.lineWidth = 2;    
+    ctx.strokeStyle = '#000';
+
+    ctx.beginPath();   
+
+    // ctx.moveTo(10,10);   
+    //ctx.quadraticCurveTo(50, 200, 400, 30); 
+    ctx.bezierCurveTo(10,10, 50, 200, 400, 30); 
+
+    ctx.stroke();
+    ctx.closePath();   
+
+    pixel(ctx, 10, 10, 7, '#f63')
+    pixel(ctx, 50, 200, 7, '#f63');
+    pixel(ctx, 400, 30, 7, '#f63');
+    
+    canvas.addEventListener('mousemove', ev => {
+      ctx.beginPath(); 
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.bezierCurveTo(10,10, ev.clientX, ev.clientY, 400, 30); 
+      ctx.stroke();
+      pixel(ctx, 10, 10, 7, '#f63')
+      pixel(ctx, ev.clientX-8, ev.clientY-8, 7, '#f63');
+      pixel(ctx, 400, 30, 7, '#f63');
+    })
+
+
+
+  </script>
+</body>
+</html>

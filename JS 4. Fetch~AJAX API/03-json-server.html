@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+    <title>JSON Server</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <section>
+            <h3>XMLHTTPRequest</h3>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>GET-запросы</h4>
+                    <a href="#" class="btn btn-primary" onclick="posts(); return false">/posts</a>
+                    <a href="#" class="btn btn-primary" onclick="posts(1); return false">/posts/1</a>
+                    <a href="#" class="btn btn-primary" onclick="comments(); return false">/comments</a>
+                    <a href="#" class="btn btn-primary" onclick="comments(1); return false">/comments/1</a>
+                    <a href="#" class="btn btn-primary" onclick="profile(); return false">/profile</a>
+                    <a href="#" class="btn btn-danger" onclick="clearResult(1);  return false">Очистить результаты</a>
+                    <hr>
+                    <h4>POST-запрос</h4>
+                    <a href="#" class="btn btn-primary" onclick="createPosts({
+                        author: 'Автор1',
+                        title: 'Название1'
+                    }); return false">/posts</a>
+                    <h4>PATCH-запрос</h4>
+                    <a href="#" class="btn btn-primary" onclick="updatePosts({
+                        id: 1,
+                        author: 'typicode (updated)',
+                        title: 'json-server (updated)'
+                    }); return false">/posts</a>
+                    <h4>DELETE-запрос</h4>
+                    <a href="#" class="btn btn-primary" onclick="deletePosts( 1 ); return false">/posts</a>
+
+                </div>
+                <div class="col-md-6">
+                    <h4>Результат</h4>
+                    <pre id="result1"></pre>
+                </div>
+            </div>
+
+
+            <script>
+                function clearResult(id) {
+                    document.querySelector(`#result${id}`).innerHTML = '';
+                }
+
+                function posts(id) {
+                    let xhr = new XMLHttpRequest();
+
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            console.log(JSON.parse(xhr.responseText));
+                            result1.innerHTML = xhr.responseText;
+                        }
+                    }
+                    console.log(`http://localhost:3000/posts/${id ? id: ''}`)
+                    xhr.open('GET', `http://localhost:3000/posts/${id ? id: ''}`, true);
+                    xhr.send(null);
+                }
+
+                function comments(id) {
+                    let xhr = new XMLHttpRequest();
+
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            console.log(JSON.parse(xhr.responseText));
+                            result1.innerHTML = xhr.responseText;
+                        }
+                    }
+                    console.log(`http://localhost:3000/comments/${id ? id: ''}`)
+                    xhr.open('GET', `http://localhost:3000/comments/${id ? id: ''}`, true);
+                    xhr.send(null);
+                }
+
+                function profile() {
+                    let xhr = new XMLHttpRequest();
+
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            console.log(JSON.parse(xhr.responseText));
+                            result1.innerHTML = xhr.responseText;
+                        }
+                    }
+                    console.log(`http://localhost:3000/profile/`)
+                    xhr.open('GET', `http://localhost:3000/profile/`, true);
+                    xhr.send(null);
+                }
+
+                function createPosts({
+                    author,
+                    title
+                }) {
+                    let xhr = new XMLHttpRequest();
+
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            console.log(JSON.parse(xhr.responseText));
+                            result1.innerHTML = xhr.responseText;
+                        }
+                    }
+                    console.log(`http://localhost:3000/posts/`)
+                    xhr.open('POST', `http://localhost:3000/posts`, true);
+                    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                    xhr.send(JSON.stringify({
+                        author,
+                        title
+                    }));
+                }
+
+                function updatePosts({
+                    id,
+                    author,
+                    title
+                }) {
+                    let xhr = new XMLHttpRequest();
+
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            console.log(JSON.parse(xhr.responseText));
+                            result1.innerHTML = xhr.responseText;
+                        }
+                    }
+                    console.log(`http://localhost:3000/posts/`)
+                    xhr.open('PATCH', `http://localhost:3000/posts/${id}`, true);
+                    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                    xhr.send(JSON.stringify({
+                        author,
+                        title
+                    }));
+                }
+
+                function deletePosts(id) {
+                    let xhr = new XMLHttpRequest();
+
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            console.log(JSON.parse(xhr.responseText));
+                            result1.innerHTML = xhr.responseText;
+                        }
+                    }
+                    console.log(`http://localhost:3000/posts/`)
+                    xhr.open('DELETE', `http://localhost:3000/posts/${id}`, true);
+                    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                    xhr.send(null);
+                }
+            </script>
+            <hr>
+        </section>
+
+
+        <section>
+            <h3>Fetch API</h3>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>GET-запросы</h4>
+                    <a href="#" class="btn btn-primary" onclick="postsFetch(); return false">/posts</a>
+                    <a href="#" class="btn btn-primary" onclick="postsFetch(1); return false">/posts/1</a>
+                    <a href="#" class="btn btn-primary" onclick="commentsFetch(); return false">/comments</a>
+                    <a href="#" class="btn btn-primary" onclick="commentsFetch(1); return false">/comments/1</a>
+                    <a href="#" class="btn btn-primary" onclick="profileFetch(); return false">/profile</a>
+                    <a href="#" class="btn btn-danger" onclick="clearResult(2); return false">Очистить результаты</a>
+                    <hr>
+
+                    <h4>POST-запрос</h4>
+                    <a href="#" class="btn btn-primary" onclick="createPostsFetch({
+                        author: 'Автор2',
+                        title: 'Название2'
+                    }); return false">/posts</a>
+
+                    <h4>PATCH-запрос</h4>
+                    <a href="#" class="btn btn-primary" onclick="updatePostsFetch({
+                         id: 1,
+                         author: 'typicode (updated)',
+                         title: 'json-server (updated)'
+                     }); return false">/posts</a>
+                    <h4>DELETE-запрос</h4>
+                    <a href="#" class="btn btn-primary" onclick="deletePostsFetch( 1 ); return false">/posts</a>
+
+                </div>
+                <div class="col-md-6">
+                    <h4>Результат</h4>
+                    <pre id="result2"></pre>
+                </div>
+            </div>
+
+            <script>
+                function postsFetch(id) {
+                    console.log(`http://localhost:3000/posts/${id ? id : ''}`);
+
+                    fetch(`http://localhost:3000/posts/${id ? id : ''}`)
+                        .then(response => {
+                            response.json().then(json => {
+                                result2.innerHTML = JSON.stringify(json, null, ' ');
+                            });
+                        }).catch(txt => {
+                            console.log('Ошибка: ', txt)
+                        });
+                }
+
+                function commentsFetch(id) {
+                    console.log(`http://localhost:3000/comments/${id ? id : ''}`);
+
+                    fetch(`http://localhost:3000/comments/${id ? id : ''}`)
+                        .then(response => {
+                            response.json().then(json => {
+                                result2.innerHTML = JSON.stringify(json, null, ' ');
+                            });
+                        }).catch(txt => {
+                            console.log('Ошибка: ', txt)
+                        });
+                }
+
+                function profileFetch(id) {
+                    console.log(`http://localhost:3000/profile/`);
+
+                    fetch(`http://localhost:3000/profile/`)
+                        .then(response => {
+                            response.json().then(json => {
+                                result2.innerHTML = JSON.stringify(json, null, ' ');
+                            });
+                        }).catch(txt => {
+                            console.log('Ошибка: ', txt)
+                        });
+                }
+
+                async function createPostsFetch({
+                    author,
+                    title
+                }) {
+
+                    const url = 'http://localhost:3000/posts';
+                    console.log(url)
+
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                author,
+                                title
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        const json = await response.json();
+                        result2.innerHTML = JSON.stringify(json);
+                    } catch (error) {
+                        console.error('Ошибка:', error);
+                    }
+                }
+
+                function updatePostsFetch({
+                    id,
+                    author,
+                    title
+                }) {
+                    const url = 'http://localhost:3000/posts/' + id;
+                    fetch(url, {
+                            method: 'PATCH',
+                            body: JSON.stringify({
+                                author,
+                                title
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }).then(res => res.json())
+                        .then(json => result2.innerHTML = JSON.stringify(json));
+                }
+
+                function deletePostsFetch(id) {
+                    let xhr = new XMLHttpRequest();
+
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            console.log(JSON.parse(xhr.responseText));
+                            result1.innerHTML = xhr.responseText;
+                        }
+                    }
+                    console.log(`http://localhost:3000/posts/`)
+                    xhr.open('DELETE', `http://localhost:3000/posts/${id}`, true);
+                    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                    xhr.send(null);
+                }
+            </script>
+        </section>
+    </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        label, #photoLoader{
+            display: block;
+            width: 150px;
+            height: 250px;
+        }
+        label{
+            box-shadow: 0 0 5px #555;
+            text-align: center;
+            font-size: 2rem;
+            font-family: sans-serif;
+            color:rgb(199,199,199);
+            position: relative;
+        }
+        #photoLoader{
+            opacity: 0;
+        }
+        label img{
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            width: 100%;
+            opacity: .5;
+            border: 3px solid red;
+        }
+    </style>
+</head>
+<body>
+    <label> Ваше фото
+    <input type="file" id="photoLoader">
+</label>
+<script>
+    const photoLoader = document.querySelector('#photoLoader');
+
+    photoLoader.addEventListener('change', function(ev) {
+        const photoFile = ev.target.files[0];
+        if (['image/jpeg', 'image/png'].includes( photoFile.type)){
+            let reader = new FileReader();
+            reader.addEventListener('load', ev =>{
+                photoLoader.parentNode.querySelector('img')?.remove();
+                let img = document.createElement('img');
+                img.src = ev.target.result;
+                photoLoader.parentNode.appendChild(img);
+            })
+                reader.readAsDataURL(photoFile);
+        };
+    });
+</script>
+
+<hr />
+<input type="file" id="dataLoader">
+    <h3>Данные</h3>
+    <div id="result"></div>
+    <script>
+        const dataLoader = document.querySelector('#dataLoader');
+        dataLoader.addEventListener('change', function(ev){
+            const file = ev.target.files[0];
+            if (file.type == 'application/json'){
+                let reader = new FileReader();
+
+                reader.addEventListener('load', ev => {
+                    const items = JSON.parse(ev.target.result);
+                    items.forEach( item =>{
+                        result.innerHTML +=`
+                        <h4>${item.name}</h4>
+                        <p>Email: <a href="mailto:${item.email}">${item.email}</a>`
+                    })
+                })
+
+                reader.addEventListener('error', ev => {
+                    console.log( ev );
+                })
+                reader.readAsText(file);
+            };
+        });
+    </script>
+</body>
+</html>

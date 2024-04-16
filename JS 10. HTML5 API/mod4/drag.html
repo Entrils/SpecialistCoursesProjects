@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .test{
+      width: 100px;
+      height: 100px;
+      background: #f63;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div class="test" id="test" draggable="true">
+    Это можно перетаскивать
+  </div>
+
+  <script>
+    const test = document.querySelector('#test');
+
+const dragHandler = ev => {
+  console.log('drag - перетаскивается')
+}
+const dragendHandler = ev => {
+  console.log('dragend - завершаем перетаскивать')
+}
+const dragenterHandler = ev => {
+  console.log('dragenter - входив в зону сброса')
+}
+const dragexitHandler = ev => {
+  console.log('dragexit - всё завершается')
+}
+const dragstartHandler = ev => {
+  console.log('dragstart - начинаем перетаскивать')
+}
+const dropHandler = ev => {
+  console.log('drop - элемент сброшен на зону сброса')
+}
+
+    test.ondrag = dragHandler;
+    test.ondragend = dragendHandler;
+    test.ondragenter = dragenterHandler;
+    test.ondragexit = dragexitHandler;
+    test.ondragstart = dragstartHandler;
+    test.ondrop = dropHandler;
+
+  </script>
+</body>
+</html>

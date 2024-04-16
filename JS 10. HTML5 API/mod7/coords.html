@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width=500 height=300></canvas>
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+    ctx.lineWidth = 1;    
+    ctx.setLineDash([5]);
+    
+    //стрелка оси y
+    ctx.beginPath();   
+    ctx.moveTo(5,10);
+    ctx.lineTo(15, 10); 
+    ctx.lineTo(10, 0); 
+    ctx.fill();
+    ctx.closePath();   
+
+    //стрелка оси y
+    ctx.beginPath();   
+    ctx.moveTo(canvas.width - 10, canvas.height - 45);
+    ctx.lineTo(canvas.width, canvas.height - 50); 
+    ctx.lineTo(canvas.width - 10, canvas.height - 55); 
+    ctx.fill();
+    ctx.closePath();   
+
+    //сами оси
+    ctx.beginPath();  
+    //y
+    ctx.moveTo(10,10);
+    ctx.lineTo(10, canvas.height); 
+    //x
+    ctx.moveTo(0,canvas.height - 50);
+    ctx.lineTo(canvas.width, canvas.height - 50); 
+    ctx.stroke();
+    ctx.closePath(); 
+
+    const line = (ctx, x1, y1, x2, y2, color) => {
+      ctx.strokeStyle = color;
+      ctx.beginPath();   
+      ctx.moveTo(x1,y1);
+      ctx.lineTo(x2,y2); 
+      ctx.stroke();
+      ctx.closePath();   
+    }
+    ctx.setLineDash([1]);
+    for(let i = 0; i < canvas.width; i += 10){
+      line(ctx, 0, i, canvas.width, i, '#369');
+      line(ctx, i, 0, i, canvas.height, '#369');
+    }
+    const koefX = .05;
+    const koefY = 20;
+    const deltaX = 10;
+    const deltaY = 250;
+    for(let x = 0; x < canvas.width; x++){
+      line(
+        ctx,
+        x + deltaX,
+        -Math.sin(x * koefX ) * koefY + deltaY,
+        x + deltaX,
+        -Math.sin((x - 1) * koefX) * koefY + deltaY,
+        '#f63'
+        );
+    } 
+
+
+
+  </script>
+</body>
+</html>

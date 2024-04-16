@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <title>Document</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap" rel="stylesheet">
+
+  <style>
+    canvas{ 
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="300"></canvas>
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+    // ctx.fillStyle = '#369';
+    // ctx.font = '48px Arial';
+    // ctx.font = "2rem 'Montserrat Alternates'";
+    // ctx.fillText('Привет, canvas!', 100, 50);
+
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#f63';
+    ctx.moveTo(100, 10);
+    ctx.lineTo(100, 250);
+    ctx.stroke();
+    
+    ctx.fillStyle = '#369';
+    ctx.font = "1.4rem 'Montserrat Alternates'";
+
+    ctx.textAlign = 'start';
+    ctx.fillText('Слово', 100, 50);
+
+    ctx.textAlign = 'end';
+    ctx.fillText('Слово', 100, 80);
+
+    ctx.textAlign = 'left';
+    ctx.fillText('Слово', 100, 110);
+
+    ctx.textAlign = 'right';
+    ctx.fillText('Слово', 100, 140);
+
+    ctx.textAlign = 'center';
+    ctx.fillText('Слово', 100, 170);
+
+    ctx.moveTo(150, 150);
+    ctx.lineTo(450, 150);
+    ctx.stroke();
+
+    ctx.textBaseline = 'top';
+    ctx.fillText('Слово', 200, 150);
+
+    ctx.textBaseline = 'bottom';
+    ctx.fillText('Слово', 280, 150);
+
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Слово', 360, 150);
+
+    console.log(ctx.measureText('Привет, canvas!').width);
+  </script>
+</body>
+</html>

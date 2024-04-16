@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <!-- <script src='worker.js'></script> -->
+  <script>
+  if( window.Worker ){
+    let myWorker = new Worker('worker.js');
+    /* 
+    setTimeout( ()=>{
+      myWorker.terminate();
+    }, 100 );
+    */
+   myWorker.addEventListener('error', e => {
+     e.preventDefault();
+     console.log(e);
+     console.log(e.message, e.filename, e.lineno);
+   })
+  }
+  </script>
+</body>
+</html>
